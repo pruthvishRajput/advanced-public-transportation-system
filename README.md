@@ -5,4 +5,4 @@ This is the demonstration of our work "Advanced Urban Public Transportation Syst
 # Cite us
 If you use any of the content of this presentation, we would appreciate citations to the following paper:
 
-P. Rajput, M. Chaturvedi, and P. Patel, “Advanced urban public transportation system for indian scenarios,” in Proceedings of the 20th International Conference on Distributed Computing and Networking, ICDCN , India, January 04-07, 2019, 2019, pp. 327–336. doi: [10.1145/3288599.3288624](https://dl.acm.org/citation.cfm?id=3288624).
+- P. Rajput, M. Chaturvedi, and P. Patel, “Advanced urban public transportation system for indian scenarios,” in Proceedings of the 20th International Conference on Distributed Computing and Networking, ICDCN , India, January 04-07, 2019, 2019, pp. 327–336. doi: [10.1145/3288599.3288624](https://dl.acm.org/citation.cfm?id=3288624).
