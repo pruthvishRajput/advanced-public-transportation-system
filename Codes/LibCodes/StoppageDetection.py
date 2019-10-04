@@ -64,7 +64,7 @@ def InitializeMap(LocationRecord):
 	
 	return(map_osm)
 
-def MarkBusStopOnAMap(LocationTupleList, model, clusters,LocationRecord, map_osm):
+def MarkDetectedBusStopOnAMap(LocationTupleList, model, clusters,LocationRecord, map_osm):
 	'''
 	input: 
 	output: 
@@ -108,6 +108,18 @@ def MarkBusStopOnAMap(LocationTupleList, model, clusters,LocationRecord, map_osm
 
 	return(map_osm)
 
+def MarkActualBusStopOnAMap(StoppageList, map_osm, AcutualBusStops, AcutualCrossRoad):
+	'''
+	input: 
+	output: 
+	function: 
+	'''
+	for Stoppage in StoppageList:
+		if Stoppage['Type'] == 'BusStop' and AcutualBusStops == True:
+			folium.Marker([Stoppage['Location'][0], Stoppage['Location'][1]], popup=Stoppage['Name'], icon=folium.Icon(color='green')).add_to(map_osm)
+		elif Stoppage['Type'] == 'CrossRoad' and AcutualCrossRoad == True: 
+			folium.Marker([Stoppage['Location'][0], Stoppage['Location'][1]], popup=Stoppage['Name'], icon=folium.Icon(color='red')).add_to(map_osm)
+	return(map_osm)
 con = MongoClient()
 
 
