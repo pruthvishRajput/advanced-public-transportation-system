@@ -18,7 +18,7 @@ import calendar
 import json
 import numpy
 import math
-import geocoder
+#import geocoder
 
 from pymongo import MongoClient
 import optparse
