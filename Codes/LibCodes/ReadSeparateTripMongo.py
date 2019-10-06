@@ -65,11 +65,13 @@ def ReadLocationRecordsAndSeparateIntoSegement(RouteName, inputFile, path, Recor
 
 
 	s,mod=divmod(float(LocationsJSON[0]["epoch"]),1000)
-
-	# get time in tz
-	tz = pytz.timezone('Asia/Kolkata')
-	#tz = pytz.timezone('Asia/Calcutta')
-	dateTimeOP=datetime.fromtimestamp(s,tz).strftime('%d_%m_%Y__%H_%M_%S')
+	if RecordType == 'RawRecord':
+		dateTimeOP=datetime.fromtimestamp(s).strftime('%d_%m_%Y__%H_%M_%S')
+	else:
+		# get time in tz
+		tz = pytz.timezone('Asia/Kolkata')
+		#tz = pytz.timezone('Asia/Calcutta')
+		dateTimeOP=datetime.fromtimestamp(s,tz).strftime('%d_%m_%Y__%H_%M_%S')
 
 	'''Register Route and trip info in RouteInfo DB'''
 	RouteInfo = 'RouteInfo'
@@ -93,10 +95,13 @@ def ReadLocationRecordsAndSeparateIntoSegement(RouteName, inputFile, path, Recor
 		if ((index>0) and (float(LocationsJSON[index]["epoch"])-float(LocationsJSON[index-1]["epoch"])>(30*60*1000))):
 			
 			s,mod=divmod(float(LocationsJSON[index]["epoch"]),1000)
-			# get time in tz
-			tz = pytz.timezone('Asia/Kolkata')
-			#tz = pytz.timezone('Asia/Calcutta')
-			dateTimeOP=datetime.fromtimestamp(s,tz).strftime('%d_%m_%Y__%H_%M_%S')
+			if RecordType == 'RawRecord':
+				dateTimeOP=datetime.fromtimestamp(s).strftime('%d_%m_%Y__%H_%M_%S')
+			else:
+				# get time in tz
+				tz = pytz.timezone('Asia/Kolkata')
+				#tz = pytz.timezone('Asia/Calcutta')
+				dateTimeOP=datetime.fromtimestamp(s,tz).strftime('%d_%m_%Y__%H_%M_%S')
 
 			MongoCollection = dateTimeOP
 			'''Register MongoCollection in TripInfo collection'''
