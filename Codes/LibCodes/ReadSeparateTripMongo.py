@@ -93,7 +93,11 @@ def ReadLocationRecordsAndSeparateIntoSegement(RouteName, inputFile, path, Recor
 		if ((index>0) and (float(LocationsJSON[index]["epoch"])-float(LocationsJSON[index-1]["epoch"])>(30*60*1000))):
 			
 			s,mod=divmod(float(LocationsJSON[index]["epoch"]),1000)
-			dateTimeOP=datetime.fromtimestamp(s).strftime('%d_%m_%Y__%H_%M_%S')
+			# get time in tz
+			tz = pytz.timezone('Asia/Kolkata')
+			#tz = pytz.timezone('Asia/Calcutta')
+			dateTimeOP=datetime.fromtimestamp(s,tz).strftime('%d_%m_%Y__%H_%M_%S')
+
 			MongoCollection = dateTimeOP
 			'''Register MongoCollection in TripInfo collection'''
 			#con[LocationTripTag][TripInfo].insert_one({'SingleTripInfo':MongoCollection,'filteredLocationRecord':False,'DBSCANOp':False,'segments':-1,'segmentsTimeStamp':[]})		
