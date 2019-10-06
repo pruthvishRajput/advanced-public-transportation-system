@@ -10,6 +10,8 @@ import time
 from pymongo import     MongoClient
 from operator import itemgetter, attrgetter
 import os
+import pytz
+
 con = MongoClient()
 
 def add_dt(places_copy,RecordType):
@@ -64,7 +66,10 @@ def ReadLocationRecordsAndSeparateIntoSegement(RouteName, inputFile, path, Recor
 
 	s,mod=divmod(float(LocationsJSON[0]["epoch"]),1000)
 
-	dateTimeOP=datetime.fromtimestamp(s).strftime('%d_%m_%Y__%H_%M_%S')
+	# get time in tz
+	tz = pytz.timezone('Asia/Kolkata')
+	#tz = pytz.timezone('Asia/Calcutta')
+	dateTimeOP=datetime.fromtimestamp(s,tz).strftime('%d_%m_%Y__%H_%M_%S')
 
 	'''Register Route and trip info in RouteInfo DB'''
 	RouteInfo = 'RouteInfo'
