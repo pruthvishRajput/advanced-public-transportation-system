@@ -19,7 +19,7 @@ foo@bar:~$ jupyter notebook
 
 ```
 
-- Command to starting the MongoDB server:
+- Command to start the MongoDB server:
 ```shell
 foo@bar:~$ sudo service mongod start
 
