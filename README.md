@@ -13,18 +13,18 @@ One can read, execute and interact with this project on binder by clicking the b
 ## Executing this project on a local system
 One can read, execute and interact with this project by installing or meeting the software requirements mentioned in `SoftwareRequirement.md`. For executing the project, the jupyter notebook server and MongoDB server needs to be started using the commands described below:
 
-- Stating the Jupyter notebook server:
+- Command to start the Jupyter notebook server:
 ```shell
 foo@bar:~$ jupyter notebook
 
 ```
 
-- Starting the MongoDB server
+- Command to starting the MongoDB server:
 ```shell
 foo@bar:~$ sudo service mongod start
 
 ```
-- Stoping the MongoDB server
+- Command to stop the MongoDB server:
 ```shell
 foo@bar:~$ sudo service mongod stop
 
