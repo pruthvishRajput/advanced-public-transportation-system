@@ -25,7 +25,7 @@ foo@bar:~$ sudo service mongod stop
 
 ```
 
-## Python and related libraries
+## Python and related libraries installation using Anaconda Distribution or library links
 ### Option 1: Anaconda Distribution
 We recommend that you have python3 version installed on the system, and one may consider downloading Anaconda Distribution, as our project uses Numpy, ScipY, Jupyter Notebook, Sklearn libraries. Download Anaconda Distribution from [here](https://www.anaconda.com/distribution/#download-section)
 
@@ -34,17 +34,11 @@ We recommend that you have python3 version installed on the system, and one may 
 
 The project application is tested on `Python 3.6.8` and `Python 3.5.2`. We recommend that you have a Python3 version installed into your system or may download Python3 from [here](https://www.python.org/downloads/).
 
-#### SciPy, NumPy, Jupyter Notebook
+#### SciPy, NumPy, Jupyter Notebook, Pandas, Matplotlib
 Download link [here](https://scipy.org/install.html)
 
 #### scikit-learn
 Download link [here](https://scikit-learn.org/stable/install.html)
-
-#### Pandas
-Download link [here](https://pandas.pydata.org/pandas-docs/stable/install.html)
-
-#### Matplotlib
-Download link [here](https://matplotlib.org/users/installing.html)
 
 ## Other python libraries (Required)
 ### PyMongo
