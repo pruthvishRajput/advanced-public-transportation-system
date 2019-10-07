@@ -11,7 +11,7 @@ One can read, execute and interact with this project on binder by clicking the b
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/pruthvishRajput/advanced-public-transportation-system/master)
 
 ## Executing this project on a local system
-One can read, execute and interact with this project by installing or meeting the software requirements mentioned in `Software requirement.md`. For executing the project, the jupyter notebook server and MongoDB server needs to be started using the commands described below:
+One can read, execute and interact with this project by installing or meeting the software requirements mentioned in `SoftwareRequirement.md`. For executing the project, the jupyter notebook server and MongoDB server needs to be started using the commands described below:
 
 - Stating the Jupyter notebook server:
 ```shell
