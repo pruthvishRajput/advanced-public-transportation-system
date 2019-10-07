@@ -46,6 +46,8 @@ Download link [here](https://pandas.pydata.org/pandas-docs/stable/install.html)
 #### Matplotlib
 Download link [here](https://matplotlib.org/users/installing.html)
 
-## PyMongo (Required)
-
+## Other python libraries (Required)
+### PyMongo
 PyMongo is a Python distribution containing tools for working with MongoDB, and is the recommended way to work with MongoDB from Python. One may consider downloading PyMongo from [here](https://api.mongodb.com/python/current/index.html)
+### pytz 
+Download link [here](https://pypi.org/project/pytz/)
