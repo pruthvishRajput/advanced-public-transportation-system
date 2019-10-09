@@ -91,7 +91,7 @@ def ApplyFiltering(RouteName,SingleTripInfo):
 	Accuracy=numpy.asarray(Accuracy)
 	meanAccuracy=numpy.mean(Accuracy)
 	stdAccuracy=numpy.std(Accuracy)
-	outlierThresholdAccuracy=meanAccuracy + 3*stdAccuracy
+	outlierThresholdAccuracy=meanAccuracy + 2*stdAccuracy
 
 	AccuracyMeasure={}
 	AccuracyMeasure['Mean'] = meanAccuracy
