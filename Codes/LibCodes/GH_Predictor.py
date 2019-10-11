@@ -113,10 +113,14 @@ def PredictionAlgorithmNorthBound(LocationRecord,BusStopsList,HistoricalDataList
         #pprint.pprint(VariableDict)
 
         '''Logic for subsequent BusStop'''
-        
+        '''
         VariableCopyDict = {}
         for Variable in VariableDict:
             VariableCopyDict[Variable] = VariableDict[Variable]
+        '''
+        VariableCopyDict = copy.deepcopy(VariableDict)
+        #VariableCopyDict = VariableDict
+        
         PredictionTupleList,PredictionMarginTupleList = PredictionForSubsequentStopNorth(HistoricalDataList,BusStopsList,VariableCopyDict)
         
         VariableDict['PredictionTupleList'] = PredictionTupleList
@@ -274,6 +278,7 @@ def GetArrivalStatusSouthBound(LocationRecord,BusStopsList,VariableDict,RouteNam
 
 #def PredictionAlgorithmForSouthBound(BusStopIndex,BusStopsListSouth,LocationRecord,t_j_m1_s_predicted,t_j_m1_s_predictedL,t_j_m1_s_predictedH,arrivingAt,arrivedAt,t_j_p1_s,j_p1_s,HistoricalDataList):
 #                                   (BusStopIndex,BusStopsList,LocationRecord,t_j_p1_predicted,t_j_p1_predictedL,t_j_p1_predictedH, arrivingAt, arrivedAt, t_j_m1, j_m1, HistoricalDataList)
+import copy
 def PredictionAlgorithmSouthBound(LocationRecord,BusStopsList,HistoricalDataList,VariableDict,PredictionDictList,RouteName):
 
     '''Apply Prediction Here'''
@@ -284,10 +289,13 @@ def PredictionAlgorithmSouthBound(LocationRecord,BusStopsList,HistoricalDataList
         VariableDict = PredictionBasedOnHDataSouthBound(HistoricalDataList,ArrivedAtTime, VariableDict,BusStopsList)
 
         '''Logic for subsequent BusStop'''
-        
+        '''
         VariableCopyDict = {}
         for Variable in VariableDict:
             VariableCopyDict[Variable] = VariableDict[Variable]
+        '''
+        VariableCopyDict = copy.deepcopy(VariableDict)
+        #VariableCopyDict = VariableDict
         PredictionTupleList,PredictionMarginTupleList = PredictionForSubsequentStopSouth(HistoricalDataList,BusStopsList,VariableCopyDict)
         
         VariableDict['PredictionTupleList'] = PredictionTupleList
@@ -432,4 +440,3 @@ def PredictionForSubsequentStopSouth(HistoricalDataList,BusStopsList,VariableCop
         PredictionMarginTupleList.append((BusStopsCount-1-VariableCopyDict['BusStopIndex']-1,VariableCopyDict['t_j_m1_s_predictedMargin']))
         
     return(PredictionTupleList,PredictionMarginTupleList )
-
