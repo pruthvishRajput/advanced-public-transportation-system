@@ -7,11 +7,12 @@ import numpy
 con = MongoClient()
 
 def HistoricalWeights(SingleTripDelInfo,RouteName):
-	'''SingleTripDelInfo: Trip for which prediction is made and is to be removed in historical computation'''
-
-
 	'''
-	Get all the trips Information in terms of 'TripStartTimeAggregate' for the North bound and South bound, bus-stop list, bus-stop count,trip that would be removed from historical computation, its bound and start hour
+	input: The trip to be removed from weight computation and RouteName
+	output: void
+	function: Gets the trip information based on trip start hour and bound. Further, the function
+			  computes historical weight for all the trip start hour and bounds, and during computation
+			  it removes the selected trip.
 	'''
 	TripStartTimeAggregate= [Tr['TripStartTimeBound'] for Tr in con [RouteName]['TripStartTimeAggregate'].find()]
 	
@@ -31,9 +32,13 @@ def HistoricalWeights(SingleTripDelInfo,RouteName):
 
 def IterateThroughAggregrateTrips(SingleTripDelInfo, DelBound, DelStartHour, TripStartTimeAggregate, BusStopsList, BusStopsCount, Bound, RouteName):
 	'''
-	
+	input: The information of trip (such as trip start time, bound) to be removed from weight computation, 
+		   list of bus-stops on a route, bus-stop count, and RouteName
+	output: void
+	function: Iterate through all the trips start time and bound, compute historical weigths, and store it 
+			  in MongoDB database
 	'''
-	'''Iterate through aggregrate trips and compute historical weigths'''
+	
 	for StartTimeBoundIndex in range(0,len(TripStartTimeAggregate[0])):
 		#SingleTripsInfo = [Records['SingleTripInfo'] for Records in  con[RouteName]['TripInfo'].find({'Bound':TripStartTimeAggregate[0][StartTimeBoundIndex][1],'TripStartHour':TripStartTimeAggregate[0][StartTimeBoundIndex][0],'ConsiderForPrediction':True})]
 		SingleTripsInfo = [Records['SingleTripInfo'] for Records in  con[RouteName]['TripInfo'].find({'Bound':TripStartTimeAggregate[0][StartTimeBoundIndex][1],'TripStartHour':TripStartTimeAggregate[0][StartTimeBoundIndex][0],'BusStopRecordExtracted':True})]
@@ -63,7 +68,11 @@ def IterateThroughAggregrateTrips(SingleTripDelInfo, DelBound, DelStartHour, Tri
 
 def ComputeHistoricalWeigthsNorth(TripCount, BusStopsCount, T_pt_list, F_ps_list, RouteName, SingleTripsInfo):
 	'''
-	
+	input: The bus-stops on a route, number of trips, list of trips, and route name
+	output: List of temporal and spatial travel time estimates for every pair of bus-stops
+	function: Function computes the travel time estimates for every pair of bus-stop using the
+			  list of historical trips: SingleTripsInfo, and appends the result into the list of 
+			  temporal and spatial travel time estimates
 	'''
 	for TripIndex in range (0,TripCount):
 		for index in range (0,BusStopsCount-1):
@@ -98,8 +107,13 @@ def ComputeHistoricalWeigthsNorth(TripCount, BusStopsCount, T_pt_list, F_ps_list
 
 def ComputeHistoricalWeigthsSouth(TripCount, BusStopsCount, T_pt_list, F_ps_list, RouteName, SingleTripsInfo):
 	'''
-	
+	input: The bus-stops on a route, number of trips, list of trips, and route name
+	output: List of temporal and spatial travel time estimates for every pair of bus-stops
+	function: Function computes the travel time estimates for every pair of bus-stop using the
+			  list of historical trips: SingleTripsInfo, and appends the result into the list of 
+			  temporal and spatial travel time estimates
 	'''
+
 	for TripIndex in range (0,TripCount):
 		for index in range (0,BusStopsCount-1):
 			if index==0:
@@ -134,9 +148,13 @@ def ComputeHistoricalWeigthsSouth(TripCount, BusStopsCount, T_pt_list, F_ps_list
         
 def CreateHistoricalDictObjectAndStoreInMongo(T_pt_list, F_ps_list, TripStartTimeAggregate, StartTimeBoundIndex, RouteName):
 	'''
-	
+	input: The list of temporal and spatial travel time estimates for every pair of bus-stops, trip start time, bound and route name
+	output: void
+	function: Function creates the Travel time estimate Dict and stores it in MongoDB with
+			  collection name H.StartTime.Bound. For instance, the collection H.07.North would
+			  have the estimates and weights for trips starting at 07 hours in North bound direction.
 	'''
-	'''Creae DiffMeanStd Dict list and store it in MongoDB'''
+	'''Create DiffMeanStd Dict list and store it in MongoDB'''
 	DiffMeanStd = []
 	for i in range(0,len(T_pt_list)):
 

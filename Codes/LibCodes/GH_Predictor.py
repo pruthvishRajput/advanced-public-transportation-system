@@ -9,10 +9,16 @@ from dateutil.relativedelta import *
 import calendar
 import time
 import pprint
-
+import copy
 con = MongoClient()
 
 def InitializeVariableDict():
+    '''
+    input: void 
+    output: The variable dictionary that will be used in the arrival time prediction 
+    function: Function creates and initializes the variable dictionary with the all the
+              'key' variables used in the arrival time prediction
+    '''
     VariableDict = {}
     VariableDict['distance'] = []
     VariableDict['distance_index'] = 0
@@ -46,6 +52,13 @@ def InitializeVariableDict():
 
 
 def GetBoundAndHData(LocationRecord,BusStopsList,VariableDict,RouteName):
+    '''
+    input: The location record update, list of bus-stops on a route, variable dict, and route name
+    output: The bound of the ongoing trip, and travel time estimates and weights computed using remaining trips.
+    function: Function compares the location record update with the first and last bus-stop to detect the
+              bound of the ongoing trip. It also gets the travel time estimates and weights from MongoDB database
+
+    '''	
     BusStopsCount = len(BusStopsList)
     DistFirstStop = mydistance(LocationRecord['Latitude'],LocationRecord['Longitude'],BusStopsList[0]['Location'][0],BusStopsList[0]['Location'][1])
     DistLastStop = mydistance(LocationRecord['Latitude'],LocationRecord['Longitude'],BusStopsList[BusStopsCount-1]['Location'][0],BusStopsList[BusStopsCount-1]['Location'][1])
@@ -83,6 +96,14 @@ def GetBoundAndHData(LocationRecord,BusStopsList,VariableDict,RouteName):
 
 '''Indicates arrivedAt: BusStopIndex'''
 def GetArrivalStatusNorthBound(LocationRecord,BusStopsList,VariableDict,RouteName,Dist_TH):
+    '''
+	input: The location record update, list of bus-stops on a route, variable dict, and route name
+	output: The variable dict, and arrival flag indicating the whether the bus would arrive at the BusStopIndex or not
+
+	function: Function compares the location record update with three consecutive bus-stops on a route and 	
+			  comoutes the arrival status of the bus.
+
+    '''	
     
     BusStopsCount = len (BusStopsList)
     for j in range(0,3):
@@ -96,8 +117,16 @@ def GetArrivalStatusNorthBound(LocationRecord,BusStopsList,VariableDict,RouteNam
                     return(VariableDict,True)
     return(VariableDict,False)
 
-import pprint
+
 def PredictionAlgorithmNorthBound(LocationRecord,BusStopsList,HistoricalDataList,VariableDict,PredictionDictList,RouteName):
+    '''
+	input: The location record update, list of bus-stops on a route, historically computed weights, variable dict, list of prediction 			   dictionary and route name
+	output: An updated variable dict, and list of prediction dictionary
+
+	function: Function applies the prediction algorithm for all the downstream bus-stops on a route using the historically computed weights 			  and returns an updated variable dict, and list of prediction dictionary computes the arrival status of the bus.
+
+    '''	
+
     '''Apply Prediction Here'''
     '''Logic to be checked'''
     
@@ -148,6 +177,14 @@ def PredictionAlgorithmNorthBound(LocationRecord,BusStopsList,HistoricalDataList
 
 
 def RecordPredictionNorthBound (LocationRecord,VariableDict):
+    '''
+	input: the location record update and variable dict
+	output: The prediction dictionary for a pair of bus-stop
+	function: Function creates the prediction dictionary and initializes the prediction estimate, it's margin, and error in prediction 
+			  using actual location record update for the predicted bus-stop.
+
+    '''	
+
     PredictionDict = {}
     PredictionDict['id'] = VariableDict['BusStopIndex']
     PredictionDict['TActual'] = LocationRecord['epoch']
@@ -195,6 +232,14 @@ def mydistance(a1,b1,a2,b2):
 
 
 def PredictionBasedOnHDataNorthBound(HistoricalDataList,ArrivedAtTime, VariableDict):
+    '''
+	input: the historically computed travel time estimates and weights, the index of bus-stop where bus has arrived, and variable dict
+	output: the updated variable dict having the arrival time prediction for the next bus-stop.
+	function: Function extracts the estimate and weight for a pair of bus-stop and computes the arrival time prediction 
+			  for the next arriving bus-stop
+
+    '''	
+
     w_pt = 1
     w_ps = 0
     if HistoricalDataList[VariableDict['BusStopIndex']]['T_pt_Available'] == True:
@@ -232,7 +277,14 @@ def PredictionBasedOnHDataNorthBound(HistoricalDataList,ArrivedAtTime, VariableD
 
 # In[ ]:
 def PredictionForSubsequentStopNorth(HistoricalDataList,BusStopsList,VariableCopyDict):
-    
+    '''
+	input: the historically computed travel time estimates and weights, list of bus-stops and variable dict
+	output: the list of tuple (index, arrival time prediction) and tuple (index, margin  of arrival time
+			prediction) for the downstream bus-stops.
+	function: Function iterates through the pair of downstream bus-stops and computes the arrival time prediction
+			  for all the downstream bus-stop 
+
+    '''	    
     '''VariableCopyDict is used so that the process of prediction of sub stops does not changes the
     VariableDict values'''
     
@@ -260,6 +312,14 @@ def PredictionForSubsequentStopNorth(HistoricalDataList,BusStopsList,VariableCop
 
 #def GetArrivalStatusSouthBound(BusStopsListSouth,arrivingAt,arrivedAt,BusStopsList,LocationRecord):
 def GetArrivalStatusSouthBound(LocationRecord,BusStopsList,VariableDict,RouteName,Dist_TH):
+    '''
+	input: The location record update, list of bus-stops on a route, variable dict, and route name
+	output: The variable dict, and arrival flag indicating the whether the bus would arrive at the BusStopIndex or not
+
+	function: Function compares the location record update with three consecutive bus-stops on a route and 	
+			  comoutes the arrival status of the bus.
+
+    '''	
     BusStopsCount = len (BusStopsList)
     for j in range(0,3):
         if BusStopsCount-VariableDict['BusStopIndex']-1-j >=0:
@@ -278,9 +338,15 @@ def GetArrivalStatusSouthBound(LocationRecord,BusStopsList,VariableDict,RouteNam
 
 #def PredictionAlgorithmForSouthBound(BusStopIndex,BusStopsListSouth,LocationRecord,t_j_m1_s_predicted,t_j_m1_s_predictedL,t_j_m1_s_predictedH,arrivingAt,arrivedAt,t_j_p1_s,j_p1_s,HistoricalDataList):
 #                                   (BusStopIndex,BusStopsList,LocationRecord,t_j_p1_predicted,t_j_p1_predictedL,t_j_p1_predictedH, arrivingAt, arrivedAt, t_j_m1, j_m1, HistoricalDataList)
-import copy
-def PredictionAlgorithmSouthBound(LocationRecord,BusStopsList,HistoricalDataList,VariableDict,PredictionDictList,RouteName):
 
+def PredictionAlgorithmSouthBound(LocationRecord,BusStopsList,HistoricalDataList,VariableDict,PredictionDictList,RouteName):
+    '''
+	input: The location record update, list of bus-stops on a route, historically computed weights, variable dict, list of prediction 			   dictionary and route name
+	output: An updated variable dict, and list of prediction dictionary
+
+	function: Function applies the prediction algorithm for all the downstream bus-stops on a route using the historically computed weights 			  and returns an updated variable dict, and list of prediction dictionary computes the arrival status of the bus.
+
+    '''	
     '''Apply Prediction Here'''
     PredictionDict = RecordPredictionSouthBound(LocationRecord,VariableDict,BusStopsList)
     BusStopsCount = len(BusStopsList)
@@ -330,6 +396,14 @@ def PredictionAlgorithmSouthBound(LocationRecord,BusStopsList,HistoricalDataList
 #def RecordPredictionForSouth(BusStopIndex, LocationRecord, t_j_m1_s_predicted,t_j_m1_s_predictedL,t_j_m1_s_predictedH,BusStopsListSouth):
     #RecordPredictionForNorth (BusStopIndex,LocationRecord,t_j_p1_predicted,t_j_p1_predictedL,t_j_p1_predictedH)
 def RecordPredictionSouthBound(LocationRecord,VariableDict,BusStopsList):
+    '''
+	input: the location record update and variable dict
+	output: The prediction dictionary for a pair of bus-stop
+	function: Function creates the prediction dictionary and initializes the prediction estimate, it's margin, and error in prediction 
+			  using actual location record update for the predicted bus-stop.
+
+    '''	
+
     BusStopsCount = len (BusStopsList)
     PredictionDict = {}
     PredictionDict['id'] = BusStopsCount - 1 - VariableDict['BusStopIndex']
@@ -365,6 +439,13 @@ def RecordPredictionSouthBound(LocationRecord,VariableDict,BusStopsList):
 
 #def PredictionBasedOnHDataSouthBound(HistoricalDataList,BusStopsListSouth,BusStopIndex,j_p1_s,t_j_p1_s,LocationRecord): 
 def PredictionBasedOnHDataSouthBound(HistoricalDataList,ArrivedAtTime, VariableDict, BusStopsList):
+    '''
+	input: the historically computed travel time estimates and weights, the index of bus-stop where bus has arrived, and variable dict
+	output: the updated variable dict having the arrival time prediction for the next bus-stop.
+	function: Function extracts the estimate and weight for a pair of bus-stop and computes the arrival time prediction 
+			  for the next arriving bus-stop
+
+    '''	
     w_pt = 1
     w_ps = 0
     BusStopsCount = len (BusStopsList)
@@ -414,6 +495,14 @@ def PredictionBasedOnHDataSouthBound(HistoricalDataList,ArrivedAtTime, VariableD
 
 #def PredictionForSubsequentStopNorth(HistoricalDataList,BusStopsList,VariableCopyDict):    
 def PredictionForSubsequentStopSouth(HistoricalDataList,BusStopsList,VariableCopyDict):
+    '''
+	input: the historically computed travel time estimates and weights, list of bus-stops and variable dict
+	output: the list of tuple (index, arrival time prediction) and tuple (index, margin  of arrival time
+			prediction) for the downstream bus-stops.
+	function: Function iterates through the pair of downstream bus-stops and computes the arrival time prediction
+			  for all the downstream bus-stop 
+
+    '''	    
     
     BusStopsCount = len(BusStopsList)
     PredictionTupleList = []
@@ -440,3 +529,4 @@ def PredictionForSubsequentStopSouth(HistoricalDataList,BusStopsList,VariableCop
         PredictionMarginTupleList.append((BusStopsCount-1-VariableCopyDict['BusStopIndex']-1,VariableCopyDict['t_j_m1_s_predictedMargin']))
         
     return(PredictionTupleList,PredictionMarginTupleList )
+

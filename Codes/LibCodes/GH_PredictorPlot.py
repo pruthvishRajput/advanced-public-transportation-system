@@ -9,6 +9,12 @@ import numpy as np
 con = MongoClient()
 
 def PlotPrediction(SingleTripInfo,RouteName):
+	'''
+	input: The trip selected for arrival time prediction
+	output: plot of the arrival time estimate along with the actual travel time of a bus
+	function: Extract the list of arrival time prediction dictionary and plot the arrival time estimate 
+			  along with the actual travel time of a bus
+	'''
 	BusStopLabel=['Pakwaan', 'Guru-Dwara', 'Thaltej', 'Zydus', 'Kargil Petrol Pump','Sola','PDPU']
 
 	BusStopsList = [BusStop for BusStop in con[RouteName]['BusStops.NorthBound'].find().sort([('id',1)])]
@@ -20,26 +26,16 @@ def PlotPrediction(SingleTripInfo,RouteName):
 	PredictionMeanAtStopIndexList =[]
 	for Stop in range(BusStopCount):
 		PredictionMeanAtStopAggList.append([])
-		#PredictionMeanAtStopIndexList.append(Stop)
-
-	# In[29]:
-
-	#xLimit=(-0.65000000000000002,14.65)
-	#yLimit1=(1513908464260.7554, 1513912964260.7554)
-
 
 	PredictionDictList = [record for record in con[RouteName][SingleTripInfo+'.PredictionResult_Dist_th_50'].find().sort([('id',1)])]
-	#input()
 	ActualTimeList = []
 	ActualTimeIndexList = []
 	PredictedTimeList = []
 	PredictedTimeIndexList = []
 	PredictedTimeMarginList = []
-	#ActualTimeIndexListInDT =[]
 	PredictionErrorList =[]
 	PredictionMarginTupleList =[]
 	PredictionTupleList =[]
-	#ylimitList =[]
 
 
 	PredictionMeanAtStopAggList =[]
@@ -49,22 +45,14 @@ def PlotPrediction(SingleTripInfo,RouteName):
 
 	for Stop in range(BusStopCount):
 		PredictionMeanAtStopAggList.append([])
-		#PredictionMeanAtStopIndexList.append(Stop)
 
 	fig = plt.figure()
 	ax1 = plt.subplot2grid((1,1),(0,0))
-	#ax1.set_xlim(xLimit)
-	'''For making North Bound trip y-axis same as South Bound trip'''
-	#if TripIndex==0:
-	#	ax1.set_ylim(yLimit1)
-	#ax1.set_ylim(yLimit1)	
 	for pr in PredictionDictList:
 		#if len(pr) == 3:
 		if len(pr) == 3 or len(pr) == 4:
 			ActualTimeList.append(pr['TActual'])
 			ActualTimeIndexList.append(pr['id'])
-			#ActualUnix, ms = divmod(pr['TActual'],1000)
-			#ActualTimeIndexListInDT.append(dt.datetime.fromtimestamp(ActualUnix))
 			
 		else:
 			ActualTimeList.append(pr['TActual'])
@@ -72,8 +60,6 @@ def PlotPrediction(SingleTripInfo,RouteName):
 			PredictedTimeList.append(pr['TPredicted'])
 			PredictedTimeMarginList.append(pr['TPredictionMargin'])
 			PredictedTimeIndexList.append(pr['id'])
-			#ActualUnix, ms = divmod(pr['TActual'],1000)
-			#ActualTimeIndexListInDT.append(dt.datetime.fromtimestamp(ActualUnix))
 			PredictionErrorList.append(pr['TError'])
 
 			'''New'''
@@ -85,24 +71,7 @@ def PlotPrediction(SingleTripInfo,RouteName):
 			for PredictionIndex in range(len(pr['PredictionTupleList'])):
 				
 				PredictionMeanAtStopAggList[pr['PredictionTupleList'][PredictionIndex][0]].append(pr['PredictionTupleList'][PredictionIndex][1])
-			#plt.errorbar(PredictIndexList,PredictList,PredictMarginList,marker='o',linestyle='--',label='Prediction for id:'+str(pr['id']))
-			#ylimitList.append(ax1.get_ylim()) 
-			
-	'''
-	plt.cla() # clear previous plot
-	#plt.plot(ActualTimeIndexList,ActualTimeList)
-	plt.plot_date(ActualTimeIndexList,ActualTimeIndexListInDT)
-	plt.errorbar(PredictedTimeIndexList,PredictedTimeList,PredictedTimeMarginList)
-	plt.xlabel('Bus stop index')
-	plt.ylabel('Time (In epoch)')
-	plt.title(SingleTripsInfo[TripIndex])
-	filename=SingleTripsInfo[TripIndex]+".png"
-	#plt.savefig(filename)
-	plt.show()
-	'''
-	#plt.cla
-	#fig = plt.figure()
-	#ax1 = plt.subplot2grid((1,1),(0,0))
+
 
 	for PredictionIndex in range(len(PredictionMeanAtStopAggList)):
 		if len(PredictionMeanAtStopAggList[PredictionIndex]):

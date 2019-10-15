@@ -48,9 +48,9 @@ def mydistance(origin, destination):
 
 def InitializeMap(LocationRecord):
 	'''
-	input: 
-	output: 
-	function: 
+	input: Location records of a trip
+	output: Map with the route of a trip marked with red color polyline
+	function: Initialize polyline and add the route of the trip with red color polyline 
 	'''
 	'''OSM Map initialization'''
 	map_osm = folium.Map(location=[float(LocationRecord[0]['Latitude']),float(LocationRecord[0]['Longitude'])],zoom_start=11)
@@ -66,9 +66,11 @@ def InitializeMap(LocationRecord):
 
 def MarkDetectedBusStopOnAMap(LocationTupleList, model, clusters,LocationRecord, map_osm):
 	'''
-	input: 
-	output: 
-	function: 
+	input: Location records (in tuple form) of the trip, DBSCAN model object, clusters identified 
+		   using the DBSCAN algorithm, and map object
+	output: Map with the detected stoppages as a blue color marker
+	function: Computes the mean of all the detected clusters and append 
+			  the mean (lt, ln) location tuple on a map as a blue color marker.
 	'''
 	'''BusStop Clusters list of list''' 
 	BusStop=[]
@@ -110,9 +112,10 @@ def MarkDetectedBusStopOnAMap(LocationTupleList, model, clusters,LocationRecord,
 
 def MarkActualBusStopOnAMap(StoppageList, map_osm, AcutualBusStops, AcutualCrossRoad):
 	'''
-	input: 
-	output: 
-	function: 
+	input: The list of observed bus-stops and other stoppages, and map object
+	output: Map with observed bus-stops and / or stoppages based on AcutualBusStops and AcutualCrossRoad flags
+	function: Adds the marker of observed bus-stops and / or stoppages if AcutualBusStops and / or AcutualCrossRoad flags
+			  are set to True 
 	'''
 	for Stoppage in StoppageList:
 		if Stoppage['Type'] == 'BusStop' and AcutualBusStops == True:
