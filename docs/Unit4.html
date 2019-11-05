@@ -1,0 +1,952 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Arrival time prediction &mdash; A demonstration of Advanced Urban Public Transportation System 1.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Extraction of trip travel time information" href="Unit3.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> A demonstration of Advanced Urban Public Transportation System
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="ReadMe.html">advanced-public-transportation-system</a></li>
+<li class="toctree-l1"><a class="reference internal" href="SoftwareRequirement.html">Software requirement</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Unit1.html">Preprocessing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Unit2.html">Bus-stop detection</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Unit3.html">Extraction of trip travel time information</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Arrival time prediction</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#Weight-and-estimate-computation">Weight and estimate computation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#Arrival-time-prediction">Arrival time prediction</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">A demonstration of Advanced Urban Public Transportation System</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Arrival time prediction</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/Unit4.ipynb.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS for nbsphinx extension */
+
+/* remove conflicting styling from Sphinx themes */
+div.nbinput,
+div.nbinput div.prompt,
+div.nbinput div.input_area,
+div.nbinput div[class*=highlight],
+div.nbinput div[class*=highlight] pre,
+div.nboutput,
+div.nbinput div.prompt,
+div.nbinput div.output_area,
+div.nboutput div[class*=highlight],
+div.nboutput div[class*=highlight] pre {
+    background: none;
+    border: none;
+    padding: 0 0;
+    margin: 0;
+    box-shadow: none;
+}
+
+/* avoid gaps between output lines */
+div.nboutput div[class*=highlight] pre {
+    line-height: normal;
+}
+
+/* input/output containers */
+div.nbinput,
+div.nboutput {
+    display: -webkit-flex;
+    display: flex;
+    align-items: flex-start;
+    margin: 0;
+    width: 100%;
+}
+@media (max-width: 540px) {
+    div.nbinput,
+    div.nboutput {
+        flex-direction: column;
+    }
+}
+
+/* input container */
+div.nbinput {
+    padding-top: 5px;
+}
+
+/* last container */
+div.nblast {
+    padding-bottom: 5px;
+}
+
+/* input prompt */
+div.nbinput div.prompt pre {
+    color: #307FC1;
+}
+
+/* output prompt */
+div.nboutput div.prompt pre {
+    color: #BF5B3D;
+}
+
+/* all prompts */
+div.nbinput div.prompt,
+div.nboutput div.prompt {
+    min-width: 5ex;
+    padding-top: 0.4em;
+    padding-right: 0.4em;
+    text-align: right;
+    flex: 0;
+}
+@media (max-width: 540px) {
+    div.nbinput div.prompt,
+    div.nboutput div.prompt {
+        text-align: left;
+        padding: 0.4em;
+    }
+    div.nboutput div.prompt.empty {
+        padding: 0;
+    }
+}
+
+/* disable scrollbars on prompts */
+div.nbinput div.prompt pre,
+div.nboutput div.prompt pre {
+    overflow: hidden;
+}
+
+/* input/output area */
+div.nbinput div.input_area,
+div.nboutput div.output_area {
+    padding: 0.4em;
+    -webkit-flex: 1;
+    flex: 1;
+    overflow: auto;
+}
+@media (max-width: 540px) {
+    div.nbinput div.input_area,
+    div.nboutput div.output_area {
+        width: 100%;
+    }
+}
+
+/* input area */
+div.nbinput div.input_area {
+    border: 1px solid #e0e0e0;
+    border-radius: 2px;
+    background: #f5f5f5;
+}
+
+/* override MathJax center alignment in output cells */
+div.nboutput div[class*=MathJax] {
+    text-align: left !important;
+}
+
+/* override sphinx.ext.imgmath center alignment in output cells */
+div.nboutput div.math p {
+    text-align: left;
+}
+
+/* standard error */
+div.nboutput div.output_area.stderr {
+    background: #fdd;
+}
+
+/* ANSI colors */
+.ansi-black-fg { color: #3E424D; }
+.ansi-black-bg { background-color: #3E424D; }
+.ansi-black-intense-fg { color: #282C36; }
+.ansi-black-intense-bg { background-color: #282C36; }
+.ansi-red-fg { color: #E75C58; }
+.ansi-red-bg { background-color: #E75C58; }
+.ansi-red-intense-fg { color: #B22B31; }
+.ansi-red-intense-bg { background-color: #B22B31; }
+.ansi-green-fg { color: #00A250; }
+.ansi-green-bg { background-color: #00A250; }
+.ansi-green-intense-fg { color: #007427; }
+.ansi-green-intense-bg { background-color: #007427; }
+.ansi-yellow-fg { color: #DDB62B; }
+.ansi-yellow-bg { background-color: #DDB62B; }
+.ansi-yellow-intense-fg { color: #B27D12; }
+.ansi-yellow-intense-bg { background-color: #B27D12; }
+.ansi-blue-fg { color: #208FFB; }
+.ansi-blue-bg { background-color: #208FFB; }
+.ansi-blue-intense-fg { color: #0065CA; }
+.ansi-blue-intense-bg { background-color: #0065CA; }
+.ansi-magenta-fg { color: #D160C4; }
+.ansi-magenta-bg { background-color: #D160C4; }
+.ansi-magenta-intense-fg { color: #A03196; }
+.ansi-magenta-intense-bg { background-color: #A03196; }
+.ansi-cyan-fg { color: #60C6C8; }
+.ansi-cyan-bg { background-color: #60C6C8; }
+.ansi-cyan-intense-fg { color: #258F8F; }
+.ansi-cyan-intense-bg { background-color: #258F8F; }
+.ansi-white-fg { color: #C5C1B4; }
+.ansi-white-bg { background-color: #C5C1B4; }
+.ansi-white-intense-fg { color: #A1A6B2; }
+.ansi-white-intense-bg { background-color: #A1A6B2; }
+
+.ansi-default-inverse-fg { color: #FFFFFF; }
+.ansi-default-inverse-bg { background-color: #000000; }
+
+.ansi-bold { font-weight: bold; }
+.ansi-underline { text-decoration: underline; }
+
+/* Some additional styling taken form the Jupyter notebook CSS */
+div.rendered_html table {
+  border: none;
+  border-collapse: collapse;
+  border-spacing: 0;
+  color: black;
+  font-size: 12px;
+  table-layout: fixed;
+}
+div.rendered_html thead {
+  border-bottom: 1px solid black;
+  vertical-align: bottom;
+}
+div.rendered_html tr,
+div.rendered_html th,
+div.rendered_html td {
+  text-align: right;
+  vertical-align: middle;
+  padding: 0.5em 0.5em;
+  line-height: normal;
+  white-space: normal;
+  max-width: none;
+  border: none;
+}
+div.rendered_html th {
+  font-weight: bold;
+}
+div.rendered_html tbody tr:nth-child(odd) {
+  background: #f5f5f5;
+}
+div.rendered_html tbody tr:hover {
+  background: rgba(66, 165, 245, 0.2);
+}
+
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast,
+.nboutput.nblast {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast + .nbinput {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<div class="section" id="Arrival-time-prediction">
+<h1>Arrival time prediction<a class="headerlink" href="#Arrival-time-prediction" title="Permalink to this headline">¶</a></h1>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="o">%</span><span class="k">matplotlib</span> inline
+</pre></div>
+</div>
+</div>
+<p>In this unit, we will use the travel time information computed in the previous unit for arrival time prediction. The arrival time prediction is computed using the travel time estimates between the pair of bus-stop <span class="math notranslate nohighlight">\((i,i+1)\)</span>. The travel time estimation is based on the weights and estimates pre-computed using historical trips. Concretely, we compute the mean of the bus travel time between the pair of bus-stop <span class="math notranslate nohighlight">\((i,i+1)\)</span> in the historical trips. As these are the historical trips, the
+weights and estimates can be computed in off-load time of the server, when the load on the server is relatively less. We will discuss the weight and estimation computation followed by the discussion about the arrival time prediction.</p>
+<div class="section" id="Weight-and-estimate-computation">
+<h2>Weight and estimate computation<a class="headerlink" href="#Weight-and-estimate-computation" title="Permalink to this headline">¶</a></h2>
+<p>In our application, we select one of the trips from the available location records as the ongoing trip and compute the arrival time prediction for it. In this case, the weights and estimates are computed using remaining trips for every pair of bus-stops <span class="math notranslate nohighlight">\((i,i+1)\)</span> on a route.</p>
+<p>For a pair of bus-stop, the temporal estimate is computed as the mean of travel time of the recorded trips in the same <code class="docutils literal notranslate"><span class="pre">TripStartHour</span></code>. The weights and estimates are computed for the trips starting at different <code class="docutils literal notranslate"><span class="pre">TripStartHour</span></code> separately. The reason for separate computation is that the traffic dynamics throughout the day would be different and at the same time it would not change rapidly. We consider the trips that have the same <code class="docutils literal notranslate"><span class="pre">TripStartHour</span></code> would be plying on a route with the same
+traffic dynamics and hence, by computing weights and estimates at different <code class="docutils literal notranslate"><span class="pre">TripStartHour</span></code> separately, we cater for time-varying traffic dynamics.</p>
+<div class="math notranslate nohighlight">
+\[T^{pt}(i, i+1) = \frac{1}{n} \sum_{j=1}^{n} T_j(i, i+1)\]</div>
+<p>Likewise, the spatial estimate is computed as the mean of the fraction of travel time between pair <span class="math notranslate nohighlight">\((i-1,i)\)</span> and <span class="math notranslate nohighlight">\((i,i+1)\)</span>.</p>
+<div class="math notranslate nohighlight">
+\[F^{ps} (i, i+1) =   \frac{1}{n} \sum_{j=1}^{n} \left( \frac{T_j(i, i+1)}{T_j(i-1, i)} \right)\]</div>
+<p>The corresponding weights <span class="math notranslate nohighlight">\(w^{pt}\)</span> and <span class="math notranslate nohighlight">\(w^{ps}\)</span> are computed using the variance of the travel time <span class="math notranslate nohighlight">\(\sigma^{pt} (i,i+1)\)</span> between the pair of bus-stop <span class="math notranslate nohighlight">\((i,i+1)\)</span> and the variance in the fraction of the travel time <span class="math notranslate nohighlight">\(\sigma^{ps} (i,i+1)\)</span> between pair <span class="math notranslate nohighlight">\((i-1,i)\)</span> and <span class="math notranslate nohighlight">\((i,i+1)\)</span> as given below.</p>
+<div class="math notranslate nohighlight">
+\[W^{pt} (i, i+1) =  \frac{\sigma^{ps} (i,i+1)}{\sigma ^{pt} (i,i+1) + \sigma ^{ps} (i,i+1)}\]</div>
+<p>and</p>
+<div class="math notranslate nohighlight">
+\[W ^{ps} (i, i+1)  =  1- W ^{pt} (i, i+1)\]</div>
+<p>The weights are inversely proportional to the variance of the estimates and sums up to 1. We also compute the variance in the estimate <span class="math notranslate nohighlight">\({STD}\)</span> for computing the margin in the prediction as</p>
+<div class="math notranslate nohighlight">
+\[STD = \sqrt{w^{pt}(i,i+1)^2 \times \frac{\sigma^{pt} (i,i+1)^2}{T^{pt}(i, i+1)} \times 100 + w^{ps}(i,i+1)^2 \times  \frac{\sigma^{ps} (i,i+1)^2}{T^{ps}(i, i+1)^2} \times 100 }\]</div>
+<p>In the following, we will select one of the trips as ongoing and compute the weights and estimates using remaining trips.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="sd">&#39;&#39;&#39;Imports&#39;&#39;&#39;</span>
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="k">import</span> <span class="n">print_function</span>
+<span class="kn">from</span> <span class="nn">ipywidgets</span> <span class="k">import</span> <span class="n">interact</span><span class="p">,</span> <span class="n">interactive</span><span class="p">,</span> <span class="n">fixed</span><span class="p">,</span> <span class="n">interact_manual</span><span class="p">,</span> <span class="n">GridBox</span><span class="p">,</span> <span class="n">Layout</span>
+<span class="kn">import</span> <span class="nn">ipywidgets</span> <span class="k">as</span> <span class="nn">widgets</span>
+<span class="kn">from</span> <span class="nn">pymongo</span> <span class="k">import</span> <span class="n">MongoClient</span>
+
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">pprint</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">))</span> <span class="o">+</span><span class="s1">&#39;/Codes/LibCodes&#39;</span><span class="p">)</span>
+
+<span class="sd">&#39;&#39;&#39;Import project specific library&#39;&#39;&#39;</span>
+<span class="kn">import</span> <span class="nn">WeigthsForPredictor</span>
+<span class="kn">import</span> <span class="nn">GH_Predictor</span><span class="o">,</span> <span class="nn">GH_PredictorPlot</span>
+<span class="sd">&#39;&#39;&#39;Initialize MongoClient&#39;&#39;&#39;</span>
+<span class="n">con</span> <span class="o">=</span> <span class="n">MongoClient</span><span class="p">()</span>
+
+<span class="n">RouteName</span><span class="o">=</span><span class="s1">&#39;Git_ISCON_PDPU&#39;</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="sd">&#39;&#39;&#39;For updating the lib changes effects&#39;&#39;&#39;</span>
+<span class="c1">#&#39;&#39;&#39;</span>
+<span class="kn">import</span> <span class="nn">importlib</span>
+<span class="n">importlib</span><span class="o">.</span><span class="n">reload</span><span class="p">(</span><span class="n">WeigthsForPredictor</span><span class="p">)</span>
+<span class="n">importlib</span><span class="o">.</span><span class="n">reload</span><span class="p">(</span><span class="n">GH_Predictor</span><span class="p">)</span>
+<span class="n">importlib</span><span class="o">.</span><span class="n">reload</span><span class="p">(</span><span class="n">GH_PredictorPlot</span><span class="p">)</span>
+<span class="c1">#&#39;&#39;&#39;</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>&lt;module &#39;GH_PredictorPlot&#39; from &#39;/home/pruthvish/JRF/GitVersionICDCN/Codes/LibCodes/GH_PredictorPlot.py&#39;&gt;
+</pre></div>
+</div>
+</div>
+<p>Let us extract the trips for which we have extracted location records corresponding to the bus-stops by querying <code class="docutils literal notranslate"><span class="pre">BusStopRecordExtracted</span></code> flag to be <strong>True</strong> and compute historical weights and estimates using function <code class="docutils literal notranslate"><span class="pre">WeigthsForPredictor.HistoricalWeights</span></code>.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">SingleTripsInfo</span> <span class="o">=</span> <span class="p">[</span><span class="n">rec</span><span class="p">[</span><span class="s1">&#39;SingleTripInfo&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">rec</span> <span class="ow">in</span>
+                             <span class="n">con</span><span class="p">[</span><span class="n">RouteName</span><span class="p">][</span><span class="s1">&#39;TripInfo&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">find</span><span class="p">({</span><span class="s1">&#39;BusStopRecordExtracted&#39;</span><span class="p">:</span><span class="kc">True</span><span class="p">})]</span>
+
+<span class="n">WeigthsForPredictor</span><span class="o">.</span><span class="n">HistoricalWeights</span><span class="p">(</span><span class="n">SingleTripsInfo</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">RouteName</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p>The function <code class="docutils literal notranslate"><span class="pre">WeigthsForPredictor.HistoricalWeights</span></code> stores the weights and estimates in the collection <code class="docutils literal notranslate"><span class="pre">H.TripStartHour.Bound</span></code>. For instance, the collection <code class="docutils literal notranslate"><span class="pre">H.07.North</span></code> would have the estimates and weights for trips starting at <em>07</em> hours in <em>North bound</em> direction.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">HistoricalWeightRecords</span> <span class="o">=</span> <span class="p">[</span><span class="n">rec</span> <span class="k">for</span> <span class="n">rec</span> <span class="ow">in</span> <span class="n">con</span><span class="p">[</span><span class="n">RouteName</span><span class="p">][</span><span class="s1">&#39;H.07.North&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">find</span><span class="p">()]</span>
+<span class="k">for</span> <span class="n">Record</span> <span class="ow">in</span> <span class="n">HistoricalWeightRecords</span><span class="p">:</span>
+    <span class="k">del</span> <span class="n">Record</span><span class="p">[</span><span class="s1">&#39;_id&#39;</span><span class="p">]</span>
+
+<span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">HistoricalWeightRecords</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Delta_ps</th>
+      <th>Delta_pt</th>
+      <th>F_ps_Available</th>
+      <th>F_ps_Mean</th>
+      <th>F_ps_STD</th>
+      <th>STD</th>
+      <th>T_pt_Available</th>
+      <th>T_pt_Mean</th>
+      <th>T_pt_STD</th>
+      <th>id</th>
+      <th>w_ps</th>
+      <th>w_pt</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>NaN</td>
+      <td>0.000000</td>
+      <td>False</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>0.000000</td>
+      <td>True</td>
+      <td>92000.000000</td>
+      <td>0.000000</td>
+      <td>0</td>
+      <td>NaN</td>
+      <td>1.000000</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>0.000000</td>
+      <td>29.429677</td>
+      <td>True</td>
+      <td>1.413043</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>True</td>
+      <td>134352.857143</td>
+      <td>39539.612072</td>
+      <td>1</td>
+      <td>1.000000</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>43.377372</td>
+      <td>35.624758</td>
+      <td>True</td>
+      <td>0.486211</td>
+      <td>0.210905</td>
+      <td>27.662496</td>
+      <td>True</td>
+      <td>61097.333333</td>
+      <td>21765.777002</td>
+      <td>2</td>
+      <td>0.450934</td>
+      <td>0.549066</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>25.391495</td>
+      <td>17.970649</td>
+      <td>True</td>
+      <td>1.708430</td>
+      <td>0.433796</td>
+      <td>14.881828</td>
+      <td>True</td>
+      <td>96842.105263</td>
+      <td>17403.155061</td>
+      <td>3</td>
+      <td>0.414432</td>
+      <td>0.585568</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>13.290849</td>
+      <td>15.010500</td>
+      <td>True</td>
+      <td>2.106551</td>
+      <td>0.279978</td>
+      <td>9.969095</td>
+      <td>True</td>
+      <td>200900.000000</td>
+      <td>30156.093912</td>
+      <td>4</td>
+      <td>0.530381</td>
+      <td>0.469619</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>28.367482</td>
+      <td>23.751117</td>
+      <td>True</td>
+      <td>0.942747</td>
+      <td>0.267434</td>
+      <td>18.282143</td>
+      <td>True</td>
+      <td>187176.470588</td>
+      <td>44456.502593</td>
+      <td>5</td>
+      <td>0.455713</td>
+      <td>0.544287</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>21.255091</td>
+      <td>12.496206</td>
+      <td>True</td>
+      <td>0.765774</td>
+      <td>0.162766</td>
+      <td>11.129244</td>
+      <td>True</td>
+      <td>134722.222222</td>
+      <td>16835.166750</td>
+      <td>6</td>
+      <td>0.370244</td>
+      <td>0.629756</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>11.023317</td>
+      <td>8.334377</td>
+      <td>True</td>
+      <td>2.567393</td>
+      <td>0.283012</td>
+      <td>6.711921</td>
+      <td>True</td>
+      <td>344277.777778</td>
+      <td>28693.409146</td>
+      <td>7</td>
+      <td>0.430546</td>
+      <td>0.569454</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>41.951459</td>
+      <td>41.314275</td>
+      <td>True</td>
+      <td>0.808863</td>
+      <td>0.339330</td>
+      <td>29.437159</td>
+      <td>True</td>
+      <td>275235.294118</td>
+      <td>113711.466343</td>
+      <td>8</td>
+      <td>0.496174</td>
+      <td>0.503826</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>23.637914</td>
+      <td>9.635871</td>
+      <td>True</td>
+      <td>0.886769</td>
+      <td>0.209614</td>
+      <td>9.680837</td>
+      <td>True</td>
+      <td>222411.764706</td>
+      <td>21431.309761</td>
+      <td>9</td>
+      <td>0.289593</td>
+      <td>0.710407</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>10.226022</td>
+      <td>7.511601</td>
+      <td>True</td>
+      <td>1.124720</td>
+      <td>0.115014</td>
+      <td>6.124333</td>
+      <td>True</td>
+      <td>248294.117647</td>
+      <td>18650.862481</td>
+      <td>10</td>
+      <td>0.423484</td>
+      <td>0.576516</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>6.718750</td>
+      <td>6.082485</td>
+      <td>True</td>
+      <td>0.956712</td>
+      <td>0.064279</td>
+      <td>4.514739</td>
+      <td>True</td>
+      <td>236666.666667</td>
+      <td>14395.215254</td>
+      <td>11</td>
+      <td>0.475148</td>
+      <td>0.524852</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>7.753066</td>
+      <td>8.405876</td>
+      <td>True</td>
+      <td>0.867368</td>
+      <td>0.067248</td>
+      <td>5.703725</td>
+      <td>True</td>
+      <td>206235.294118</td>
+      <td>17335.883940</td>
+      <td>12</td>
+      <td>0.520200</td>
+      <td>0.479800</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>6.975068</td>
+      <td>5.991839</td>
+      <td>True</td>
+      <td>1.461304</td>
+      <td>0.101927</td>
+      <td>4.558135</td>
+      <td>True</td>
+      <td>299235.294118</td>
+      <td>17929.697388</td>
+      <td>13</td>
+      <td>0.462087</td>
+      <td>0.537913</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<p>Here, - <code class="docutils literal notranslate"><span class="pre">Delta_pt</span></code> and <code class="docutils literal notranslate"><span class="pre">Delta_ps</span></code>: is the relative standard deviation in the travel time between pair of bus-stop <span class="math notranslate nohighlight">\((i,i+1)\)</span> and fraction of the travel time between the pair of bus-stop <span class="math notranslate nohighlight">\((i-1,i)\)</span> and <span class="math notranslate nohighlight">\((i,i+1)\)</span>. - <code class="docutils literal notranslate"><span class="pre">F_ps_Available</span></code>, <code class="docutils literal notranslate"><span class="pre">T_pt_Available</span></code>: indicates whether the estimate is available or not. - <code class="docutils literal notranslate"><span class="pre">F_ps_Mean</span></code>, <code class="docutils literal notranslate"><span class="pre">F_ps_STD</span></code>: Mean and std deviation of spatial estimate. - <code class="docutils literal notranslate"><span class="pre">T_pt_Mean</span></code>, <code class="docutils literal notranslate"><span class="pre">T_pt_STD</span></code>: Mean and std deviation of temporal estimate. - <code class="docutils literal notranslate"><span class="pre">id</span></code>: id of
+bus-stop. - <code class="docutils literal notranslate"><span class="pre">w_ps</span></code>, <code class="docutils literal notranslate"><span class="pre">w_pt</span></code>: weights of temporal and spatial estimate.</p>
+<p>Kindly note that the spatial estimate is not available for <code class="docutils literal notranslate"><span class="pre">id:</span> <span class="pre">0</span></code>. Because, the travel time of previous pair of bus-stop is not available. In this case, the weight of temporal estimate <code class="docutils literal notranslate"><span class="pre">w_pt</span></code> is 1.</p>
+</div>
+<div class="section" id="Arrival-time-prediction">
+<h2>Arrival time prediction<a class="headerlink" href="#Arrival-time-prediction" title="Permalink to this headline">¶</a></h2>
+<p>Aforementioned, to develop the arrival time predictor scheme, we select one of the trips from the available location records as the ongoing trip and compute the arrival time prediction for it. We will use the <code class="docutils literal notranslate"><span class="pre">RawRecords</span></code> for prediction, as our scheme applies prediction algorithm on receiving the real-time location updates. The preprocessing steps, DBSCAN based bus-stop detection, and historical weights and estimates computation are applied on location records during the off-load time of the
+server, when load on the server is relatively less.</p>
+<p>The arrival time prediction scheme applies the following steps on receiving the real-time location update 1. Extract bound and compute the arrival status of bus <span class="math notranslate nohighlight">\((i,i+1)\)</span>. The bus-stop i where the bus has arrived and i+1 where the bus would be arriving. 2. Extract historical estimates <span class="math notranslate nohighlight">\(T^{pt}(i,i+1), F^{ps}(i,i+1)\)</span> and weights <span class="math notranslate nohighlight">\(w^{pt},w^{ps}\)</span> for pair of bus-stops <span class="math notranslate nohighlight">\((i,i+1)\)</span>. 3. Predict arrival time for downstream bus-stops.</p>
+<p>These steps are elaborated in the following:</p>
+<p><strong>Step-1</strong></p>
+<p>At the first step, we identify the bound of the bus-trip from the real-time location update by using function <code class="docutils literal notranslate"><span class="pre">GetBoundAndHData</span></code>. The function compares the location update with the first and last bus-stop on the route. If location update is nearer to first bus-stop, it marks the bus-trip as <em>North bound</em>, else marks as <em>South bound</em>. As during the start of the bus-trip, it is supposed to be nearer to the starting bus-stop of the bound compared with the last bus-stop.</p>
+<p><strong>Step-2</strong></p>
+<p>Further, for computing the arrival status of the bus, we compare the real-time location record with three consecutive bus-stops on the route, similar to the logic we applied while extracting the travel time information in the unit-2 to cater with <em>occasional GPS outage</em>.</p>
+<p><strong>Step-3</strong></p>
+<p>Functions <code class="docutils literal notranslate"><span class="pre">GetArrivalStatusNorthBound</span></code> and <code class="docutils literal notranslate"><span class="pre">PredictionAlgorithmSouthBound</span></code>, then applies the arrival time prediction for downstream bus-stops as follow: Travel time <span class="math notranslate nohighlight">\(\hat{t}(i,i+1)\)</span> for a pair of bus-stop is computed as:</p>
+<div class="math notranslate nohighlight">
+\[ \begin{align}\begin{aligned}\hat{t}(i,i+1) = w^{pt} (i,i+1) \times T^{pt} (i,i+1) + w^{ps} (i,i+1) \times T^{ps} (i,i+1)\\where\end{aligned}\end{align} \]</div>
+<div class="math notranslate nohighlight">
+\[T^{ps} (i,i+1) = F^{ps} (i,i+1) \times T^{ps} (i-1,i)\]</div>
+<p><strong>Step-4</strong></p>
+<p>The prediction for i+1 bus-stop would be</p>
+<div class="math notranslate nohighlight">
+\[\hat{t}(i+1) = t(i) + \hat{t}(i,i+1) \pm STD(i,i+1) \times \frac{\hat{t}(i,i+1)}{100}\]</div>
+<p>where <span class="math notranslate nohighlight">\(t(i)\)</span> is the arrival time of bus at <span class="math notranslate nohighlight">\(i^{th}\)</span> stop. The last term gives the margin for prediction.</p>
+<p><strong>Step-5</strong></p>
+<p>Subsequently, for the downstream bus-stops: <span class="math notranslate nohighlight">\((i+1)\)</span> to Number of bus-stops less 1, the predicted time is considered as arrival time as follow,</p>
+<div class="math notranslate nohighlight">
+\[{t}(i+1) = \hat{t}(i+1)\]</div>
+<p>and prediction steps 3, 4, and 5 are repeated to get the prediction at the downstream bus-stops. After the prediction of all the downstream bus-stops, the algorithm performs step-2 to compute the arrival status of the bus using real-time location updates.</p>
+<p>Thus, the bus arrival time prediction is computed for all the downstream bus-stop once the algorithm gets the location update. Subsequently, as the bus-trip progresses, these arrival time predition gets updated when the bus arrives at a bus-stop. In order to compute the arrival time prediction at the significant locations, the predictions are also updated at junctions or crossroads (detected using the DBSCAN algorithm) along with the pair of bus-stops. These junctions are termed as <em>Milestones</em>
+in our prediction scheme. Now, we shall look at an interactive demo of arrival time prediction using function <code class="docutils literal notranslate"><span class="pre">ArrivalTimePrediction</span></code>.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="k">def</span> <span class="nf">ArrivalTimePrediction</span><span class="p">(</span><span class="n">index</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    input: The trip index for selection of one of the trips on which arrival time prediction will be performed</span>
+<span class="sd">    output: The plot of actual travel time and predicted travel time</span>
+<span class="sd">    function: Extracts the raw location records, and identifies the bound of the trip.</span>
+<span class="sd">              Subsequently, the function computes the arrival time status and</span>
+<span class="sd">              applies the arrival time prediction scheme.</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">LocationRecordsList</span> <span class="o">=</span> <span class="p">[</span><span class="n">Records</span> <span class="k">for</span> <span class="n">Records</span> <span class="ow">in</span>
+                           <span class="n">con</span><span class="p">[</span><span class="n">RouteName</span><span class="p">][</span><span class="n">SingleTripsInfo</span><span class="p">[</span><span class="n">index</span><span class="p">]</span><span class="o">+</span><span class="s1">&#39;.RawRecords&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">find</span><span class="p">()</span><span class="o">.</span><span class="n">sort</span><span class="p">([(</span><span class="s1">&#39;epoch&#39;</span><span class="p">,</span><span class="mi">1</span><span class="p">)])]</span>
+
+
+    <span class="n">WeigthsForPredictor</span><span class="o">.</span><span class="n">HistoricalWeights</span><span class="p">(</span><span class="n">SingleTripsInfo</span><span class="p">[</span><span class="n">index</span><span class="p">],</span><span class="n">RouteName</span><span class="p">)</span>
+
+
+    <span class="sd">&#39;&#39;&#39;Initialize the variables for arrival time prediction&#39;&#39;&#39;</span>
+    <span class="n">VariableDict</span> <span class="o">=</span> <span class="n">GH_Predictor</span><span class="o">.</span><span class="n">InitializeVariableDict</span><span class="p">()</span>
+    <span class="n">PredictionDictList</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="sd">&#39;&#39;&#39;Fetch bus-stop list&#39;&#39;&#39;</span>
+    <span class="n">BusStopsList</span> <span class="o">=</span> <span class="p">[</span><span class="n">BusStop</span> <span class="k">for</span> <span class="n">BusStop</span> <span class="ow">in</span> <span class="n">con</span><span class="p">[</span><span class="n">RouteName</span><span class="p">][</span><span class="s1">&#39;BusStops.NorthBound&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">find</span><span class="p">()</span><span class="o">.</span><span class="n">sort</span><span class="p">([(</span><span class="s1">&#39;id&#39;</span><span class="p">,</span><span class="mi">1</span><span class="p">)])]</span>
+    <span class="n">BusStopsListSouthBound</span> <span class="o">=</span> <span class="p">[</span><span class="n">BusStop</span> <span class="k">for</span> <span class="n">BusStop</span> <span class="ow">in</span> <span class="n">con</span><span class="p">[</span><span class="n">RouteName</span><span class="p">][</span><span class="s1">&#39;BusStops.SouthBound&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">find</span><span class="p">()</span><span class="o">.</span><span class="n">sort</span><span class="p">([(</span><span class="s1">&#39;id&#39;</span><span class="p">,</span><span class="mi">1</span><span class="p">)])]</span>
+
+    <span class="n">Dist_TH</span> <span class="o">=</span> <span class="mi">50</span>
+    <span class="k">for</span> <span class="n">LocationRecord</span> <span class="ow">in</span> <span class="n">LocationRecordsList</span><span class="p">:</span>
+        <span class="sd">&#39;&#39;&#39;Every new entry in loop indicates the location update</span>
+<span class="sd">        Calculate distance of location with respect to each stop Bound&#39;&#39;&#39;</span>
+
+        <span class="k">if</span> <span class="n">VariableDict</span><span class="p">[</span><span class="s1">&#39;Bound&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;&#39;</span><span class="p">:</span>
+            <span class="n">VariableDict</span><span class="p">,</span> <span class="n">HistoricalDataList</span><span class="o">=</span> <span class="n">GH_Predictor</span><span class="o">.</span><span class="n">GetBoundAndHData</span><span class="p">(</span><span class="n">LocationRecord</span><span class="p">,</span>
+                                                                            <span class="n">BusStopsList</span><span class="p">,</span><span class="n">VariableDict</span><span class="p">,</span><span class="n">RouteName</span><span class="p">)</span>
+            <span class="n">VariableDict</span><span class="p">[</span><span class="s1">&#39;BusStopIndex&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="k">elif</span> <span class="n">VariableDict</span><span class="p">[</span><span class="s1">&#39;Bound&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;North&#39;</span><span class="p">:</span>
+            <span class="n">VariableDict</span><span class="p">,</span> <span class="n">ArrivedAtFlag</span> <span class="o">=</span> <span class="n">GH_Predictor</span><span class="o">.</span><span class="n">GetArrivalStatusNorthBound</span><span class="p">(</span><span class="n">LocationRecord</span><span class="p">,</span><span class="n">BusStopsList</span><span class="p">,</span>
+                                                                                  <span class="n">VariableDict</span><span class="p">,</span><span class="n">RouteName</span><span class="p">,</span><span class="n">Dist_TH</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">ArrivedAtFlag</span><span class="o">==</span><span class="kc">True</span><span class="p">:</span>
+                <span class="n">VariableDict</span><span class="p">,</span> <span class="n">PredictionDictList</span> <span class="o">=</span> <span class="n">GH_Predictor</span><span class="o">.</span><span class="n">PredictionAlgorithmNorthBound</span><span class="p">(</span><span class="n">LocationRecord</span><span class="p">,</span>
+                                                                                 <span class="n">BusStopsList</span><span class="p">,</span>
+                                                                                 <span class="n">HistoricalDataList</span><span class="p">,</span>
+                                                                                 <span class="n">VariableDict</span><span class="p">,</span><span class="n">PredictionDictList</span><span class="p">,</span>
+                                                                                             <span class="n">RouteName</span><span class="p">)</span>
+
+        <span class="k">elif</span> <span class="n">VariableDict</span><span class="p">[</span><span class="s1">&#39;Bound&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;South&#39;</span><span class="p">:</span>
+            <span class="sd">&#39;&#39;&#39;BusStopsListSouth use&#39;&#39;&#39;</span>
+            <span class="n">BusStopsList</span> <span class="o">=</span> <span class="n">BusStopsListSouthBound</span>
+            <span class="n">VariableDict</span><span class="p">,</span> <span class="n">ArrivedAtFlag</span> <span class="o">=</span> <span class="n">GH_Predictor</span><span class="o">.</span><span class="n">GetArrivalStatusSouthBound</span><span class="p">(</span><span class="n">LocationRecord</span><span class="p">,</span><span class="n">BusStopsList</span><span class="p">,</span>
+                                                                                  <span class="n">VariableDict</span><span class="p">,</span><span class="n">RouteName</span><span class="p">,</span><span class="n">Dist_TH</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">ArrivedAtFlag</span> <span class="o">==</span> <span class="kc">True</span><span class="p">:</span>
+                <span class="n">VariableDict</span><span class="p">,</span> <span class="n">PredictionDictList</span> <span class="o">=</span> <span class="n">GH_Predictor</span><span class="o">.</span><span class="n">PredictionAlgorithmSouthBound</span><span class="p">(</span><span class="n">LocationRecord</span><span class="p">,</span>
+                                                                                 <span class="n">BusStopsList</span><span class="p">,</span>
+                                                                                 <span class="n">HistoricalDataList</span><span class="p">,</span>
+                                                                                 <span class="n">VariableDict</span><span class="p">,</span><span class="n">PredictionDictList</span><span class="p">,</span><span class="n">RouteName</span><span class="p">)</span>
+
+
+    <span class="n">con</span><span class="p">[</span><span class="n">RouteName</span><span class="p">]</span><span class="o">.</span><span class="n">drop_collection</span><span class="p">(</span><span class="n">SingleTripsInfo</span><span class="p">[</span><span class="n">index</span><span class="p">]</span><span class="o">+</span><span class="s1">&#39;.PredictionResult_Dist_th_50&#39;</span><span class="p">)</span>
+    <span class="n">con</span><span class="p">[</span><span class="n">RouteName</span><span class="p">][</span><span class="n">SingleTripsInfo</span><span class="p">[</span><span class="n">index</span><span class="p">]</span><span class="o">+</span><span class="s1">&#39;.PredictionResult_Dist_th_50&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">insert_many</span><span class="p">(</span><span class="n">PredictionDictList</span><span class="p">)</span>
+
+    <span class="n">GH_PredictorPlot</span><span class="o">.</span><span class="n">PlotPrediction</span><span class="p">(</span><span class="n">SingleTripsInfo</span><span class="p">[</span><span class="n">index</span><span class="p">],</span><span class="n">RouteName</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p>Let us select one of the trips from the historical trip records and look at arrival time prediction for the trip.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="sd">&#39;&#39;&#39;Display interactive arrival time prediction&#39;&#39;&#39;</span>
+<span class="n">SingleTripsInfo</span> <span class="o">=</span> <span class="p">[</span><span class="n">rec</span><span class="p">[</span><span class="s1">&#39;SingleTripInfo&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">rec</span> <span class="ow">in</span>
+                   <span class="n">con</span><span class="p">[</span><span class="n">RouteName</span><span class="p">][</span><span class="s1">&#39;TripInfo&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">find</span><span class="p">({</span><span class="s1">&#39;BusStopRecordExtracted&#39;</span><span class="p">:</span><span class="kc">True</span><span class="p">})]</span>
+
+<span class="n">index</span> <span class="o">=</span> <span class="n">widgets</span><span class="o">.</span><span class="n">Dropdown</span><span class="p">(</span><span class="n">options</span> <span class="o">=</span><span class="p">[(</span><span class="n">SingleTripInfo</span><span class="p">,</span><span class="n">index</span><span class="p">)</span> <span class="k">for</span> <span class="n">index</span><span class="p">,</span><span class="n">SingleTripInfo</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">SingleTripsInfo</span><span class="p">)],</span>
+                                  <span class="n">value</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                                  <span class="n">description</span> <span class="o">=</span> <span class="s1">&#39;Select trip&#39;</span> <span class="p">)</span>
+
+<span class="n">interact</span><span class="p">(</span><span class="n">ArrivalTimePrediction</span><span class="p">,</span> <span class="n">index</span> <span class="o">=</span> <span class="n">index</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "b5988f1e53754d61ac5ad40b47c0a50a", "version_major": 2, "version_minor": 0}</script></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>&lt;function __main__.ArrivalTimePrediction(index)&gt;
+</pre></div>
+</div>
+</div>
+<p>where</p>
+<p>B’s are the bus-stops: B1: ISCON crossroads, B2: Pakwaan crossroads, B3: Gurudwara, B4: Thaltej crossroads, B5: Zydus crossroads, B6: Kargil petrol pump, B7: Sola crossroads, B8: PDPU and</p>
+<p>M’s are the milestones: M1: Gota, M2: Vaishnodevi, M3: Khoraj, M4: Adalaj-Uvarsad crossroads, M5: Sargasan, M6: Raksha-shakti circle, M7: Bhaijipura.</p>
+<p>The plot in red color represents the actual travel time of the bus-trip and the plot in green shows the arrival time prediction. We would like to emphasize that the margin of the arrival time prediction is represented using the error bar in the plot. Thus the prediction of the scheme would be like the bus would arrive in <span class="math notranslate nohighlight">\(5 \pm 1\)</span> min. And the margin is based upon the variation in the historical travel time estimates that captures variation in the traffic condition of the route during
+different trip start hours.</p>
+<p>Let us look at the arrival time prediction for one of the evening trips. The trip will start from B8 and progress towards B1. For consistency in the plot, we mark the y-axis bus-stops in the same way as for <em>North bound</em> trips. And hence the arrival time prediction progresses from right to left as against <em>North bound</em>, where arrival time prediction progresses from left to right.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">ArrivalTimePrediction</span><span class="p">(</span><span class="mi">7</span><span class="p">)</span> <span class="c1"># for trip 22_12_2017__18_38_34</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="_images/Unit4_17_0.png" src="_images/Unit4_17_0.png" />
+</div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+      
+        <a href="Unit3.html" class="btn btn-neutral float-left" title="Extraction of trip travel time information" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Pruthvish Rajput and Manish Chaturvedi
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

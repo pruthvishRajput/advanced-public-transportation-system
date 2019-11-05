@@ -1,0 +1,275 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Software requirement &mdash; A demonstration of Advanced Urban Public Transportation System 1.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Preprocessing" href="Unit1.html" />
+    <link rel="prev" title="advanced-public-transportation-system" href="ReadMe.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> A demonstration of Advanced Urban Public Transportation System
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="ReadMe.html">advanced-public-transportation-system</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Software requirement</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#mongodb-database">MongoDB database:</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#python-and-related-libraries">Python and related libraries:</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#scipy-numpy-jupyter-notebook-pandas-matplotlib">SciPy, NumPy, Jupyter Notebook, Pandas, Matplotlib</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#scikit-learn">scikit-learn</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pymongo">PyMongo</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pytz">pytz</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#folium">Folium</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Unit1.html">Preprocessing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Unit2.html">Bus-stop detection</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Unit3.html">Extraction of trip travel time information</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Unit4.html">Arrival time prediction</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">A demonstration of Advanced Urban Public Transportation System</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Software requirement</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/SoftwareRequirement.md.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast,
+.nboutput.nblast {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast + .nbinput {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<div class="section" id="software-requirement">
+<h1>Software requirement<a class="headerlink" href="#software-requirement" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="mongodb-database">
+<h2>MongoDB database:<a class="headerlink" href="#mongodb-database" title="Permalink to this headline">¶</a></h2>
+<p>MongoDB is a document database that stores data in flexible, JSON-like documents. Our project uses MongoDB implementation at every stage. Download <a class="reference external" href="https://www.mongodb.com/download-center/community">link</a>.</p>
+</div>
+<div class="section" id="python-and-related-libraries">
+<h2>Python and related libraries:<a class="headerlink" href="#python-and-related-libraries" title="Permalink to this headline">¶</a></h2>
+<p>The project implementation is based on Python3 (download <a class="reference external" href="https://www.python.org/downloads/">link</a>) and following python libraries.</p>
+<div class="section" id="scipy-numpy-jupyter-notebook-pandas-matplotlib">
+<h3>SciPy, NumPy, Jupyter Notebook, Pandas, Matplotlib<a class="headerlink" href="#scipy-numpy-jupyter-notebook-pandas-matplotlib" title="Permalink to this headline">¶</a></h3>
+<p>Download <a class="reference external" href="https://scipy.org/install.html">link</a></p>
+</div>
+<div class="section" id="scikit-learn">
+<h3>scikit-learn<a class="headerlink" href="#scikit-learn" title="Permalink to this headline">¶</a></h3>
+<p>Download <a class="reference external" href="https://scikit-learn.org/stable/install.html">link</a></p>
+</div>
+<div class="section" id="pymongo">
+<h3>PyMongo<a class="headerlink" href="#pymongo" title="Permalink to this headline">¶</a></h3>
+<p>PyMongo is a Python library for working with MongoDB from python
+Downloading <a class="reference external" href="https://api.mongodb.com/python/current/index.html">link</a></p>
+</div>
+<div class="section" id="pytz">
+<h3>pytz<a class="headerlink" href="#pytz" title="Permalink to this headline">¶</a></h3>
+<p>Download <a class="reference external" href="https://pypi.org/project/pytz/">link</a></p>
+</div>
+<div class="section" id="folium">
+<h3>Folium<a class="headerlink" href="#folium" title="Permalink to this headline">¶</a></h3>
+<p>Download <a class="reference external" href="https://python-visualization.github.io/folium/installing.html">link</a></p>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="Unit1.html" class="btn btn-neutral float-right" title="Preprocessing" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="ReadMe.html" class="btn btn-neutral float-left" title="advanced-public-transportation-system" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Pruthvish Rajput and Manish Chaturvedi
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

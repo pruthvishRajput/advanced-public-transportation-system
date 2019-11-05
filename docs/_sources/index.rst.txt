@@ -1,0 +1,25 @@
+.. A demonstration of Advanced Urban Public Transportation System documentation master file, created by
+   sphinx-quickstart on Tue Oct 15 14:20:07 2019.
+   You can adapt this file completely to your liking, but it should at least
+   contain the root `toctree` directive.
+
+A demonstration of Advanced Urban Public Transportation System's
+==========================================================================================
+
+.. toctree::
+   :maxdepth: 10
+   :caption: Contents:
+
+   ReadMe.ipynb
+   SoftwareRequirement.md
+   Unit1.ipynb
+   Unit2.ipynb
+   Unit3.ipynb
+   Unit4.ipynb
+
+Indices and tables
+==================
+
+* :ref:`genindex`
+* :ref:`modindex`
+* :ref:`search`
