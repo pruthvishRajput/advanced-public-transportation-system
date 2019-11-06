@@ -3,6 +3,9 @@ This is the demonstration of our work "Advanced Urban Public Transportation Syst
 
 The development is based on open source softwares and libraries such as [MongoDB](https://www.mongodb.com/) and it's python api [pymongo](https://api.mongodb.com/python/current/), [MQTT](mqtt.org) communication using [EMQ broker](http://emqtt.io/) and it's client side API ([eclipse's paho-mqtt](https://www.eclipse.org/paho/clients/dotnet/), [pypi's paho-mqtt](https://pypi.org/project/paho-mqtt/)), machine learning library: [scikit-learn](https://scikit-learn.org), scientific computation library: [scipy](https://scipy.org/), [jupyter notebook](https://jupyter.org/), and android based applications developed in [Android Studio](https://developer.android.com/studio).
 
+# Read documentation related to project
+Click [here](https://pruthvishrajput.github.io/advanced-public-transportation-system/docs/)
+
 # Executing this project
 The project can be executed either online using Binder or on a local system by installing the required softwares and starting MongoDB services and Jupyter notebook server. 
 ## Executing this project Online (Using Binder)
