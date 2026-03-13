@@ -1,5 +1,5 @@
 folium
-sklearn
+scikit-learn
 pandas
 matplotlib
 pymongo
